@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Chambres{% endblock %}
+
+{% block body %}
+<h1>Chambres disponibles</h1>
+
+{% if region.rooms is empty %}
+
+<p>Il n'y a pas de chambres disponibles sur cette planète pour l'instant.</p>
+
+{% else %}
+
+<ul>
+	{% for room in rooms %}
+	<li><a href="{{ path('frontoffice_client_room', {"id":room.id}) }}">{{ room.summary }}</a></li>
+	{% endfor %}
+</ul>
+
+{% endif %}
+	
+<h2>Envie de changer d'horizon ?</h2>
+<a href="{{ path('frontoffice_client') }}">Retour aux planètes</a>
+ 
+
+{% endblock %} {# body #}

@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+<h1>Bienvenue sur Couettes & Café !</h1>
+
+<h4>Le leader du tourisme galactique chez l'habitant.</h4>
+
+<ul>
+
+	<li><a href="{{ path('frontoffice_client') }}">Espace client</a></li>
+	<li><a href="{{ path('frontoffice_owner') }}">Espace propriétaire</a></li>
+	<li><a href="{{ path('backoffice') }}">Espace administrateur</a></li>
+    
+</ul>
+
+{% endblock %} {# body #}

@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ room.summary }}{% endblock %}
+
+{% block body %}
+<h1>{{ room.summary }}</h1>
+
+<style>
+table, tr, td, th {
+ border-width:1px; 
+ border-style:solid; 
+ border-color:black;
+ border-collapse: collapse;
+ }
+ </style>
+
+ <table>
+  <tr>
+    <th>Description</th>
+    <td>{{ room.description }}</td>
+  </tr
+  <tr>
+    <th>Capacité</th>
+    <td>{{ room.capacity }}</td>
+  </tr>
+  <tr>
+  	<th>Superficie</th>
+ 	<td>{{ room.superficy }} m²</td>
+  </tr>
+    <tr>
+  	<th>Prix par nuitée</th>
+ 	<td>{{ room.price }}€</td>
+  </tr>
+    <tr>
+  	<th>Planète</th>
+ 	<td>{{ room.region.name }}</td>
+  </tr>
+</table> 
+
+<h2>Envie de revoir les chambres disponibles ?</h2>
+<a href="{{ path('frontoffice_client_rooms', {"id":room.region.id}) }}">Retour aux chambres</a>
+ 
+
+{% endblock %} 

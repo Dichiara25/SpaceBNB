@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace client{% endblock %}
+
+{% block body %}
+<h1>Espace client</h1>
+
+<h2>Planètes disponibles</h2>
+
+<ul>
+	{% for reg in region %}
+	<li><h3><a href="{{ path('frontoffice_client_rooms', {"id":reg.id}) }}">{{ reg.name }}</a></h3></li>
+	{{ reg.presentation }}
+	{% endfor %}
+</ul>
+	
+<h2>Envie de changer de profil utilisateur ?</h2>
+<a href="{{ path('welcome') }}">Retour à l'accueil</a>
+ 
+
+{% endblock %} {# body #}
