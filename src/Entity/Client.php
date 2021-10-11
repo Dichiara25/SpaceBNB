@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ClientRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -28,9 +30,30 @@ class Client
     private $familyName;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Comment::class, inversedBy="client")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="client")
      */
-    private $comment;
+    private $comments;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Room::class, inversedBy="clients")
+     */
+    private $rooms;
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+        $this->rooms = new ArrayCollection();
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        $s = '';
+        $s .= $this->getId() .' '. $this->getFirstname() .' '. $this->getFamilyName();
+        return $s;
+    }
 
     public function getId(): ?int
     {
@@ -61,15 +84,58 @@ class Client
         return $this;
     }
 
-    public function getComment(): ?Comment
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
     {
-        return $this->comment;
+        return $this->comments;
     }
 
-    public function setComment(?Comment $comment): self
+    public function addComment(Comment $comment): self
     {
-        $this->comment = $comment;
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setClient($this);
+        }
 
         return $this;
     }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getClient() === $this) {
+                $comment->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Room[]
+     */
+    public function getRooms(): Collection
+    {
+        return $this->rooms;
+    }
+
+    public function addRoom(Room $room): self
+    {
+        if (!$this->rooms->contains($room)) {
+            $this->rooms[] = $room;
+        }
+
+        return $this;
+    }
+
+    public function removeRoom(Room $room): self
+    {
+        $this->rooms->removeElement($room);
+
+        return $this;
+    }
+
 }

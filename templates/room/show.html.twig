@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ room.summary }}{% endblock %}
+
+{% block body %}
+    <h1>{{ room.summary }} ({{room.region.name}})</h1>
+    <h6>{{ room.description }}</h6>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ room.id }}</td>
+            </tr>
+            <tr>
+                <th>Capacity</th>
+                <td>{{ room.capacity }}</td>
+            </tr>
+            <tr>
+                <th>Superficy</th>
+                <td>{{ room.superficy }} m²</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ room.price }}€ par nuit</td>
+            </tr>
+            <tr>
+                <th>Address</th>
+                <td>{{ room.address }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td><img src="{{ vich_uploader_asset(rooms, 'imageFile') }}"
+                         width="400"
+                         height="300"/></td>
+            </tr>
+        </tbody>
+    </table>
+    <a class="btn btn-primary" href="{{ path('room_edit', {'id': room.id}) }}" role="button">Editer</a>
+    <a class="btn btn-secondary" href="{{ path('frontoffice_owner') }}" role="button">Retour</a>
+
+    {{ include('room/_delete_form.html.twig') }}
+{% endblock %}

@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\CommentRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,24 +18,33 @@ class Comment
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private $content;
 
     /**
-     * @ORM\OneToMany(targetEntity=Client::class, mappedBy="comment")
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $score;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Room::class, inversedBy="comments")
+     */
+    private $room;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="comments")
      */
     private $client;
 
     /**
-     * @ORM\OneToMany(targetEntity=Room::class, mappedBy="comment")
+     * @return string
      */
-    private $room;
-
-    public function __construct()
+    public function __toString()
     {
-        $this->client = new ArrayCollection();
-        $this->room = new ArrayCollection();
+        $s = '';
+        $s .= $this->getId() .' '. $this->getContent() .' ';
+        return $s;
     }
 
     public function getId(): ?int
@@ -57,62 +64,38 @@ class Comment
         return $this;
     }
 
-    /**
-     * @return Collection|Client[]
-     */
-    public function getClient(): Collection
+    public function getScore(): ?int
     {
-        return $this->client;
+        return $this->score;
     }
 
-    public function addClient(Client $client): self
+    public function setScore(?int $score): self
     {
-        if (!$this->client->contains($client)) {
-            $this->client[] = $client;
-            $client->setComment($this);
-        }
+        $this->score = $score;
 
         return $this;
     }
 
-    public function removeClient(Client $client): self
-    {
-        if ($this->client->removeElement($client)) {
-            // set the owning side to null (unless already changed)
-            if ($client->getComment() === $this) {
-                $client->setComment(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Room[]
-     */
-    public function getRoom(): Collection
+    public function getRoom(): ?Room
     {
         return $this->room;
     }
 
-    public function addRoom(Room $room): self
+    public function setRoom(?Room $room): self
     {
-        if (!$this->room->contains($room)) {
-            $this->room[] = $room;
-            $room->setComment($this);
-        }
+        $this->room = $room;
 
         return $this;
     }
 
-    public function removeRoom(Room $room): self
+    public function getClient(): ?Client
     {
-        if ($this->room->removeElement($room)) {
-            // set the owning side to null (unless already changed)
-            if ($room->getComment() === $this) {
-                $room->setComment(null);
-            }
-        }
+        return $this->client;
+    }
+
+    public function setClient(?Client $client): self
+    {
+        $this->client = $client;
 
         return $this;
     }

@@ -48,6 +48,16 @@ class Owner
     {
         $this->room = new ArrayCollection();
     }
+    
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        $s = '';
+        $s .= $this->getId() .' '. $this->getFirstname() .' ';
+        return $s;
+    }
 
     public function getId(): ?int
     {

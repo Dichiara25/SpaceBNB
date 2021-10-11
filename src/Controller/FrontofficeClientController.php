@@ -7,13 +7,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Room;
 use App\Entity\Region;
+use App\Entity\Comment;
 
+/**
+ * @Route("/region")
+*/
 
 class FrontofficeClientController extends AbstractController
 
 {    
     /**
-     * @Route("/frontoffice/client", name="frontoffice_client")
+     * @Route("/", name="frontoffice_client")
      */
     public function index(): Response
     {  
@@ -44,9 +48,13 @@ class FrontofficeClientController extends AbstractController
      */
     
     public function room(Room $room): Response{
-        
+        $em = $this->getDoctrine()->getManager();
+        $commentRepo = $em->getRepository(Comment::class);
+        $comment = $commentRepo->findAll();
+
         return $this->render('frontoffice_client/room.html.twig', [
             'room' => $room,
+            'comment' => $comment,
         ]);
     }
 }

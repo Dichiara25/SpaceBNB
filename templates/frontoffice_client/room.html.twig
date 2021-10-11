@@ -3,7 +3,52 @@
 {% block title %}{{ room.summary }}{% endblock %}
 
 {% block body %}
-<h1>{{ room.summary }}</h1>
+
+<!-- Header-->
+<header class="bg-dark py-1">
+	<div class="container px-4 px-lg-5 my-5">
+		<div class="text-center text-white">
+			<h1 class="display-4 fw-bolder">{{ room.summary }}</h1>
+			<p class="lead fw-normal text-white-50 mb-0">{{ room.description }}</p>
+		</div>
+	</div>
+</header>
+
+<section class="py-5">
+  <div class="container px-4 px-lg-5 mt-5">
+      <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-md-2 row-cols-xl-3 justify-content-center">
+
+    <div class="col mb-5">
+      <div class="card h-100">
+        <!-- Product image-->
+        <img class="card-img-top" src="{{ room.imageName ? vich_uploader_asset(room, 'imageFile') : '/images/assets/exo.jpg' }}" alt="Image of {{ room.summary }}"
+                      width="400" 
+                      height="200" />
+        <!-- Product details-->
+        <div class="card-body p-4">
+          <div class="text-center">
+            <!-- Product name-->
+            {{ room.capacity }} personnes maximum
+						<p>{{ room.superficy }}m²</p>
+            <p><h5 class="fw-bolder">{{ room.price }}€ par nuit</h5></p>
+          </div>
+        </div>
+        <!-- Product actions-->
+        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+          <div class="text-center"><a class="btn btn-danger" href="{{ path('frontoffice_client_room', {"id":room.id}) }}">Réserver</a>
+          <a class="btn btn-success" href="{{ path('frontoffice_client_room', {"id":room.id}) }}">Commenter</a></div>
+        </div>
+      </div>
+      <div class="text-center"><a class="btn btn-secondary" href="{{ path('frontoffice_client_rooms', {"id":room.region.id}) }}" role="button">Retour</a></div>
+    </div>
+    
+  </div>
+  
+</div>		
+
+</section>
+
+
 
 <style>
 table, tr, td, th {
@@ -13,32 +58,5 @@ table, tr, td, th {
  border-collapse: collapse;
  }
  </style>
-
- <table>
-  <tr>
-    <th>Description</th>
-    <td>{{ room.description }}</td>
-  </tr
-  <tr>
-    <th>Capacité</th>
-    <td>{{ room.capacity }}</td>
-  </tr>
-  <tr>
-  	<th>Superficie</th>
- 	<td>{{ room.superficy }} m²</td>
-  </tr>
-    <tr>
-  	<th>Prix par nuitée</th>
- 	<td>{{ room.price }}€</td>
-  </tr>
-    <tr>
-  	<th>Planète</th>
- 	<td>{{ room.region.name }}</td>
-  </tr>
-</table> 
-
-<h2>Envie de revoir les chambres disponibles ?</h2>
-<a href="{{ path('frontoffice_client_rooms', {"id":room.region.id}) }}">Retour aux chambres</a>
- 
 
 {% endblock %} 

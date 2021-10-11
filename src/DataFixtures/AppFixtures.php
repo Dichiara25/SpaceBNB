@@ -6,6 +6,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use App\Entity\Region;
 use App\Entity\Room;
 use App\Entity\Owner;
+use App\Entity\Client;
 use Doctrine\Persistence\ObjectManager;
 
 class AppFixtures extends Fixture {
@@ -38,6 +39,11 @@ class AppFixtures extends Fixture {
         yield ["Josleo","Blakholi","Secteur Anoat"];
         yield ["Winseam","Cavecara","Secteur Arkanis"];
     }
+
+    private static function clientGenerator()
+    {
+        yield ["Cayjul", "Goodoatt"];
+    }
     
     /**
      * Generates initialization data for region rooms:
@@ -67,6 +73,7 @@ class AppFixtures extends Fixture {
         
         $regionRepo = $manager->getRepository(Region::class);
         $ownerRepo = $manager->getRepository(Owner::class);
+        $clientRepo = $manager->getRepository(Client::class);
         
         foreach(self::regionDataGenerator() as [$name, $country, $presentation]){
             
@@ -85,6 +92,14 @@ class AppFixtures extends Fixture {
             $owner->setFirstname($firstname);
             $owner->setCountry($country);
             $manager->persist($owner);
+        }
+        $manager->flush();
+
+        foreach (self::clientGenerator() as [$firstname, $familyName]){
+            $client = new Client();
+            $client->setFamilyName($familyName);
+            $client->setFirstname($firstname);
+            $manager->persist($client);
         }
         $manager->flush();
         

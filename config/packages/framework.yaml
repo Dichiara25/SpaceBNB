@@ -17,4 +17,4 @@ framework:
         log: true
     
     assets:
-        base_path: '/startbootstrap-bare-gh-pages'
+        base_path: '/startbootstrap-shop-homepage-gh-pages'
